@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - '*'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -88,7 +89,6 @@ jobs:
         with:
           packages: platform-tools
 
-
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
 
@@ -130,7 +130,7 @@ jobs:
       - name: Sign APK with testkey
         run: |
           APK_IN=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
-          APK_OUT="LeviLauncher-${GITHUB_REF_NAME}-release.apk"
+          APK_OUT="Radiance-${GITHUB_REF_NAME}-release.apk"
           apksigner sign \
             --key testkey.pk8 \
             --cert testkey.x509.pem \
@@ -146,7 +146,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: "LeviLauncher Unlocked ${{ github.ref_name }}"
+          name: "Radiance ${{ github.ref_name }}"
           files: ${{ env.APK_OUT }}
           generate_release_notes: true
         env:
